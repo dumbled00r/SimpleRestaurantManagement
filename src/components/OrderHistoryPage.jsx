@@ -19,25 +19,25 @@ const OrderHistoryPage = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading order history...</div>;
+    return <div>Đang tải lịch sử đơn hàng</div>;
   }
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Order History</h1>
+      <h1 className="text-2xl font-bold mb-4">Lịch sử đơn hàng</h1>
       {orders.length === 0 ? (
-        <p>No orders found.</p>
+        <p>Không tìm thấy đơn hàng nào</p>
       ) : (
         <ul>
           {orders.map((order, index) => (
             <li key={index} className="mb-4 p-4 border rounded">
               <h2 className="text-xl">Order {index + 1}</h2>
-              <p>Date: {new Date(order.date).toLocaleString()}</p>
+              <p>Thời gian: {new Date(order.date).toLocaleString()}</p>
               <p>
-                Payment Method:{" "}
-                {order.paymentMethod === "cash" ? "Cash" : "Bank Transfer"}
+                Phương thức thanh toán:{" "}
+                {order.paymentMethod === "cash" ? "Tiền mặt" : "Chuyển khoản"}
               </p>
-              <p>Total: {order.total.toLocaleString()} đ</p>
+              <p>Tổng cộng: {order.total.toLocaleString()} đ</p>
               <ul>
                 {order.items.map((item, idx) => (
                   <li key={idx}>
