@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-// Hàm để tạo danh sách các tháng
+// Hàm để tạo danh sách các tháng với định dạng MM/yyyy
 const generateMonthsList = () => {
   const months = [];
   const currentYear = new Date().getFullYear();
@@ -8,14 +8,14 @@ const generateMonthsList = () => {
     const monthDate = new Date(currentYear, i);
     const formattedMonth = `${String(i + 1).padStart(2, "0")}/${currentYear}`; // Định dạng MM/yyyy
     months.push({
-      value: formattedMonth,
-      label: formattedMonth,
+      value: monthDate.toISOString().slice(0, 7), // YYYY-MM format for backend
+      label: formattedMonth, // Display format: MM/yyyy
     });
   }
   return months;
 };
 
-// Hàm để tạo danh sách các ngày
+// Hàm để tạo danh sách các ngày với định dạng dd/MM/yyyy
 const generateDaysList = () => {
   const days = [];
   const currentDate = new Date();
@@ -23,10 +23,10 @@ const generateDaysList = () => {
     const day = new Date(currentDate.getTime() - i * 24 * 60 * 60 * 1000); // Lấy ngày trong 30 ngày qua
     const formattedDay = `${String(day.getDate()).padStart(2, "0")}/${String(
       day.getMonth() + 1
-    ).padStart(2, "0")}/${day.getFullYear()}`; // Định dạng dd/mm/yyyy
+    ).padStart(2, "0")}/${day.getFullYear()}`; // Định dạng dd/MM/yyyy
     days.push({
-      value: day.toISOString().slice(0, 10), // Sử dụng định dạng này cho giá trị thực tế
-      label: formattedDay, // Hiển thị định dạng dd/mm/yyyy
+      value: day.toISOString().slice(0, 10), // Use ISO for backend
+      label: formattedDay, // Display format: dd/MM/yyyy
     });
   }
   return days;
@@ -45,6 +45,7 @@ const StatisticsPage = () => {
       console.log("Không có giá trị ngày/tháng được chọn.");
       return;
     }
+
     const baseUrl = "https://simplerestaurantmanagement.onrender.com";
     let url = `${baseUrl}/api/statistics?${filterType}=${selectedDate}`;
     console.log("Fetching from URL:", url); // Log URL để kiểm tra
@@ -75,12 +76,12 @@ const StatisticsPage = () => {
     }
   }, [selectedDate, filterType]);
 
-  // Hàm định dạng ngày thành dd/mm/yyyy
+  // Hàm định dạng ngày thành dd/MM/yyyy
   const formatDate = (date) => {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
     const year = date.getFullYear();
-    return `${day}/${month}/${year}`; // Định dạng dd/mm/yyyy
+    return `${day}/${month}/${year}`; // Định dạng dd/MM/yyyy
   };
 
   // Hàm định dạng tháng thành MM/yyyy
@@ -97,7 +98,7 @@ const StatisticsPage = () => {
 
     if (newFilterType === "day") {
       const today = new Date();
-      setSelectedDate(formatDate(today)); // Thiết lập ngày hiện tại với định dạng dd/mm/yyyy
+      setSelectedDate(formatDate(today)); // Thiết lập ngày hiện tại với định dạng dd/MM/yyyy
     } else if (newFilterType === "month") {
       const currentMonth = new Date();
       setSelectedDate(formatMonth(currentMonth)); // Thiết lập tháng hiện tại với định dạng MM/yyyy
