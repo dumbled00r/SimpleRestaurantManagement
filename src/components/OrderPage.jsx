@@ -5,6 +5,8 @@ const OrderPage = () => {
   const [cart, setCart] = useState([]); // Giỏ hàng
   const [totalPrice, setTotalPrice] = useState(0); // Tổng giá trị giỏ hàng
   const [paymentMethod, setPaymentMethod] = useState("cash"); // Phương thức thanh toán
+  const [newFoodName, setNewFoodName] = useState(""); // Tên món ăn ngoài menu
+  const [newFoodPrice, setNewFoodPrice] = useState(""); // Giá món ăn ngoài menu
   const [showScrollButton, setShowScrollButton] = useState(false); // Hiển thị nút cuộn lên đầu
   const baseUrl = "https://simplerestaurantmanagement.onrender.com";
   const cartRef = React.createRef(); // Reference to the cart section
@@ -49,6 +51,26 @@ const OrderPage = () => {
     } else {
       setCart([...cart, { ...food, quantity: 1 }]); // Thêm món với số lượng mặc định là 1
     }
+  };
+
+  // Hàm thêm món ăn ngoài menu vào giỏ hàng
+  const handleAddNewFoodToCart = () => {
+    if (!newFoodName || newFoodPrice <= 0) {
+      alert("Vui lòng nhập tên món ăn và giá hợp lệ.");
+      return;
+    }
+
+    const newFood = {
+      id: Date.now(), // Unique ID for new food item
+      name: newFoodName,
+      price: Number(newFoodPrice),
+      quantity: 1, // Số lượng mặc định là 1
+    };
+    setCart([...cart, newFood]);
+
+    // Reset input fields
+    setNewFoodName("");
+    setNewFoodPrice("");
   };
 
   // Hàm tăng số lượng món ăn
@@ -151,6 +173,31 @@ const OrderPage = () => {
           </div>
         </div>
       ))}
+
+      {/* Thêm món ăn ngoài menu */}
+      <div className="mb-4">
+        <h3 className="text-xl mb-2">Thêm món ăn ngoài menu</h3>
+        <input
+          type="text"
+          value={newFoodName}
+          onChange={(e) => setNewFoodName(e.target.value)}
+          placeholder="Tên món ăn"
+          className="border p-2 mr-2"
+        />
+        <input
+          type="number"
+          value={newFoodPrice}
+          onChange={(e) => setNewFoodPrice(e.target.value)}
+          placeholder="Giá món ăn"
+          className="border p-2 mr-2"
+        />
+        <button
+          onClick={handleAddNewFoodToCart}
+          className="bg-green-500 text-white px-4 py-2 rounded"
+        >
+          Thêm nhanh
+        </button>
+      </div>
 
       {/* Giỏ hàng */}
       <div className="mt-4" ref={cartRef}>
