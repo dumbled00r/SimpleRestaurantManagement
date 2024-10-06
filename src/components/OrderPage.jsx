@@ -8,7 +8,6 @@ const OrderPage = () => {
   const [newFoodName, setNewFoodName] = useState(""); // Tên món ăn ngoài menu
   const [newFoodPrice, setNewFoodPrice] = useState(""); // Giá món ăn ngoài menu
   const [showScrollButton, setShowScrollButton] = useState(false); // Hiển thị nút cuộn lên đầu
-  const baseUrl = "https://simplerestaurantmanagement.onrender.com";
   const cartRef = React.createRef(); // Reference to the cart section
 
   // Nhóm món ăn theo category
@@ -26,6 +25,9 @@ const OrderPage = () => {
     );
     setTotalPrice(total); // Cập nhật tổng giá trị giỏ hàng
   }, [cart]);
+
+  // Tính tổng số lượng món ăn trong giỏ hàng
+  const totalItemsInCart = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   // Hiển thị nút cuộn lên đầu khi cuộn xuống quá một mức nào đó
   useEffect(() => {
@@ -112,7 +114,7 @@ const OrderPage = () => {
     };
 
     // Gửi yêu cầu thanh toán (POST) đến server
-    fetch(`${baseUrl}/api/orders`, {
+    fetch(`https://simplerestaurantmanagement.onrender.com/api/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -290,7 +292,7 @@ const OrderPage = () => {
               🛒
             </button>
             <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-              {cart.length}
+              {totalItemsInCart}
             </span>
           </div>
         )}
