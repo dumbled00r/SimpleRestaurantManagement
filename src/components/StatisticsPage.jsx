@@ -6,12 +6,10 @@ const generateMonthsList = () => {
   const currentYear = new Date().getFullYear();
   for (let i = 0; i < 12; i++) {
     const monthDate = new Date(currentYear, i);
+    const formattedMonth = `${String(i + 1).padStart(2, "0")}/${currentYear}`; // Định dạng MM/yyyy
     months.push({
-      value: `${currentYear}-${String(i + 1).padStart(2, "0")}`, // Định dạng: YYYY-MM
-      label: monthDate.toLocaleString("default", {
-        month: "long",
-        year: "numeric",
-      }), // Tháng (ví dụ: January 2024)
+      value: formattedMonth,
+      label: formattedMonth,
     });
   }
   return months;
@@ -23,9 +21,12 @@ const generateDaysList = () => {
   const currentDate = new Date();
   for (let i = 0; i < 30; i++) {
     const day = new Date(currentDate.getTime() - i * 24 * 60 * 60 * 1000); // Lấy ngày trong 30 ngày qua
+    const formattedDay = `${String(day.getDate()).padStart(2, "0")}/${String(
+      day.getMonth() + 1
+    ).padStart(2, "0")}/${day.getFullYear()}`; // Định dạng dd/mm/yyyy
     days.push({
-      value: day.toISOString().slice(0, 10), // Định dạng: YYYY-MM-DD
-      label: day.toLocaleDateString(), // Hiển thị ngày tháng (ví dụ: 10/02/2024)
+      value: day.toISOString().slice(0, 10), // Sử dụng định dạng này cho giá trị thực tế
+      label: formattedDay, // Hiển thị định dạng dd/mm/yyyy
     });
   }
   return days;
@@ -74,18 +75,32 @@ const StatisticsPage = () => {
     }
   }, [selectedDate, filterType]);
 
+  // Hàm định dạng ngày thành dd/mm/yyyy
+  const formatDate = (date) => {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`; // Định dạng dd/mm/yyyy
+  };
+
+  // Hàm định dạng tháng thành MM/yyyy
+  const formatMonth = (date) => {
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0
+    const year = date.getFullYear();
+    return `${month}/${year}`; // Định dạng MM/yyyy
+  };
+
   // Xử lý khi người dùng thay đổi kiểu filter
   const handleFilterTypeChange = (e) => {
     const newFilterType = e.target.value;
     setFilterType(newFilterType);
+
     if (newFilterType === "day") {
-      setSelectedDate(new Date().toISOString().slice(0, 10)); // Thiết lập ngày hiện tại làm mặc định cho "day"
+      const today = new Date();
+      setSelectedDate(formatDate(today)); // Thiết lập ngày hiện tại với định dạng dd/mm/yyyy
     } else if (newFilterType === "month") {
       const currentMonth = new Date();
-      const formattedMonth = `${currentMonth.getFullYear()}-${String(
-        currentMonth.getMonth() + 1
-      ).padStart(2, "0")}`;
-      setSelectedDate(formattedMonth); // Thiết lập tháng hiện tại làm mặc định cho "month"
+      setSelectedDate(formatMonth(currentMonth)); // Thiết lập tháng hiện tại với định dạng MM/yyyy
     }
   };
 
@@ -136,10 +151,6 @@ const StatisticsPage = () => {
           ))}
         </select>
       </div>
-
-      {/* <h2 className="text-xl mb-2">
-        Khoảng thời gian: {from} - {to}
-      </h2> */}
 
       <h3 className="text-xl mb-2">Số lượng và Doanh thu món ăn</h3>
       {foodSales && Object.keys(foodSales).length > 0 ? (
