@@ -114,6 +114,15 @@ app.get("/api/statistics", async (req, res) => {
   }
 });
 
+app.get("/api/orders", async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ date: -1 }); // Fetch orders in descending order of date
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch orders" });
+  }
+});
+
 // API to create a new order (for testing)
 app.post("/api/orders", async (req, res) => {
   const { items, total, paymentMethod, date } = req.body;
