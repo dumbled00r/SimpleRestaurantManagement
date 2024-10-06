@@ -81,15 +81,15 @@
   { "id": 27, "name": "Phô mai que", "price": 7000, "category": "Đồ ăn vặt" },
   {
     "id": 28,
-    "name": "Khoai lang chiên",
+    "name": "Khoai lang",
     "price": 10000,
     "category": "Đồ ăn vặt"
   },
-  { "id": 29, "name": "Xúc xích", "price": 30000, "category": "Đồ ăn vặt" },
+  { "id": 29, "name": "Xúc xích", "price": 10000, "category": "Đồ ăn vặt" },
   {
     "id": 30,
     "name": "Khoai tây chiên",
-    "price": 25000,
+    "price": 30000,
     "category": "Đồ ăn vặt"
   },
   {
@@ -115,6 +115,8 @@
   { "id": 45, "name": "Trà dâu", "price": 15000, "category": "Trà" },
   { "id": 46, "name": "Trà đào", "price": 15000, "category": "Trà" },
   { "id": 47, "name": "Trà vải trân châu", "price": 20000, "category": "Trà" },
+  { "id": 64, "name": "Trà đào cam sả", "price": 20000, "category": "Trà" },
+  { "id": 65, "name": "Trà việt quất", "price": 15000, "category": "Trà" },
 
   {
     "id": 50,
