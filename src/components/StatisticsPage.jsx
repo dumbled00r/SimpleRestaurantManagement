@@ -45,8 +45,8 @@ const StatisticsPage = () => {
       console.log("Không có giá trị ngày/tháng được chọn.");
       return;
     }
-
-    let url = `http://localhost:5000/api/statistics?${filterType}=${selectedDate}`;
+    const baseUrl = "https://simplerestaurantmanagement.onrender.com";
+    let url = `${baseUrl}/api/statistics?${filterType}=${selectedDate}`;
     console.log("Fetching from URL:", url); // Log URL để kiểm tra
 
     setLoading(true);

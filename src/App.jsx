@@ -12,7 +12,7 @@ function App() {
   const handleAddToCart = (updatedCart) => {
     setCart(updatedCart);
   };
-
+  const baseURL = "https://simplerestaurantmanagement.onrender.com";
   // const handleCompleteOrder = (newOrder) => {
   //   // Gửi đơn hàng mới lên server
   //   fetch("http://localhost:5000/api/orders", {
@@ -34,7 +34,7 @@ function App() {
   // };
 
   const fetchOrders = () => {
-    fetch("http://localhost:5000/api/orders")
+    fetch(`${baseURL}/api/orders`)
       .then((response) => response.json())
       .then((data) => {
         setOrders(data);
@@ -42,7 +42,7 @@ function App() {
   };
 
   const fetchStatistics = () => {
-    fetch("http://localhost:5000/api/statistics")
+    fetch(`${baseURL}/api/statistics`)
       .then((response) => response.json())
       .then((data) => {
         setStatistics(data);

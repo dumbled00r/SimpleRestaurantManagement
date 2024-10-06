@@ -6,7 +6,7 @@ const OrderPage = () => {
   const [totalPrice, setTotalPrice] = useState(0); // Tổng giá trị giỏ hàng
   const [paymentMethod, setPaymentMethod] = useState("cash"); // Phương thức thanh toán
   const [showScrollButton, setShowScrollButton] = useState(false); // Hiển thị nút cuộn lên đầu
-
+  const baseUrl = "https://simplerestaurantmanagement.onrender.com";
   // Nhóm món ăn theo category
   const groupedFoods = foods.reduce((acc, food) => {
     if (!acc[food.category]) acc[food.category] = [];
@@ -88,7 +88,7 @@ const OrderPage = () => {
     };
 
     // Gửi yêu cầu thanh toán (POST) đến server
-    fetch("http://localhost:5000/api/orders", {
+    fetch(`${baseUrl}/api/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

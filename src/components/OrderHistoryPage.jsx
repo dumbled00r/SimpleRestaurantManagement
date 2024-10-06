@@ -4,8 +4,9 @@ const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const baseUrl = "https://simplerestaurantmanagement.onrender.com";
   useEffect(() => {
-    fetch("http://localhost:5000/api/orders")
+    fetch(`${baseUrl}/api/orders`)
       .then((response) => response.json())
       .then((data) => {
         setOrders(data);
