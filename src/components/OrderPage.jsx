@@ -7,6 +7,8 @@ const OrderPage = () => {
   const [paymentMethod, setPaymentMethod] = useState("cash"); // Phương thức thanh toán
   const [showScrollButton, setShowScrollButton] = useState(false); // Hiển thị nút cuộn lên đầu
   const baseUrl = "https://simplerestaurantmanagement.onrender.com";
+  const cartRef = React.createRef(); // Reference to the cart section
+
   // Nhóm món ăn theo category
   const groupedFoods = foods.reduce((acc, food) => {
     if (!acc[food.category]) acc[food.category] = [];
@@ -115,6 +117,11 @@ const OrderPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Hàm cuộn xuống giỏ hàng
+  const scrollToCart = () => {
+    cartRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Order đồ ăn</h1>
@@ -146,7 +153,7 @@ const OrderPage = () => {
       ))}
 
       {/* Giỏ hàng */}
-      <div className="mt-4">
+      <div className="mt-4" ref={cartRef}>
         <h2 className="text-xl mb-2">Giỏ hàng</h2>
         {cart.length === 0 ? (
           <p>Giỏ hàng trống.</p>
@@ -162,7 +169,7 @@ const OrderPage = () => {
                     className="bg-red-500 text-white px-2 py-1 mr-2"
                     onClick={() => decreaseQuantity(item.id)}
                   >
-                    -
+                    –
                   </button>
                   <button
                     className="bg-green-500 text-white px-2 py-1 mr-2"
@@ -215,15 +222,32 @@ const OrderPage = () => {
         </button>
       </div>
 
-      {/* Nút cuộn lên đầu */}
-      {showScrollButton && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg"
-        >
-          ↑
-        </button>
-      )}
+      {/* Nút cuộn lên đầu và giỏ hàng */}
+      <div className="fixed bottom-4 right-4 flex flex-col space-y-4">
+        {showScrollButton && (
+          <button
+            onClick={scrollToTop}
+            className="bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg"
+          >
+            🡅
+          </button>
+        )}
+
+        {/* Nút giỏ hàng */}
+        {cart.length > 0 && (
+          <div className="relative">
+            <button
+              onClick={scrollToCart}
+              className="bg-white text-white px-4 py-2 rounded-full shadow-lg"
+            >
+              🛒
+            </button>
+            <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+              {cart.length}
+            </span>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
