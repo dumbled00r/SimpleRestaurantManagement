@@ -41,6 +41,20 @@
       "total": 115000,
       "paymentMethod": "cash",
       "date": "2024-10-06T10:57:08.600Z"
+    },
+    {
+      "items": [
+        {
+          "id": 3,
+          "name": "Nem nướng Nha Trang",
+          "price": 35000,
+          "category": "Nem",
+          "quantity": 3
+        }
+      ],
+      "total": 105000,
+      "paymentMethod": "cash",
+      "date": "2024-10-06T10:59:02.683Z"
     }
   ],
   "statistics": {
@@ -54,7 +68,7 @@
       "sold": 1
     },
     "Nem nướng Nha Trang": {
-      "sold": 1
+      "sold": 2
     }
   }
 }
