@@ -1,0 +1,171 @@
+[
+  { "id": 3, "name": "Nem nướng Nha Trang", "price": 35000, "category": "Nem" },
+  { "id": 4, "name": "Nem lụi", "price": 40000, "category": "Nem" },
+  { "id": 5, "name": "Nem hồ lô", "price": 40000, "category": "Nem" },
+  { "id": 6, "name": "Nem thêm", "price": 15000, "category": "Nem" },
+  { "id": 7, "name": "Que nem lụi", "price": 8000, "category": "Nem" },
+  { "id": 8, "name": "Que nem hồ lô", "price": 10000, "category": "Nem" },
+  {
+    "id": 59,
+    "name": "Nem chua nướng",
+    "price": 35000,
+    "category": "Đồ ăn mới"
+  },
+
+  {
+    "id": 9,
+    "name": "Chảo bò băm - trứng phô mai",
+    "price": 45000,
+    "category": "Chảo"
+  },
+  {
+    "id": 10,
+    "name": "Chảo bò băm - trứng",
+    "price": 40000,
+    "category": "Chảo"
+  },
+  { "id": 11, "name": "Báo bít tết", "price": 55000, "category": "Chảo" },
+  { "id": 12, "name": "Chảo sốt BBQ", "price": 35000, "category": "Chảo" },
+  { "id": 13, "name": "Chảo sốt tiêu tỏi", "price": 35000, "category": "Chảo" },
+
+  {
+    "id": 15,
+    "name": "Lẩu Tokbokki thường",
+    "price": 79000,
+    "category": "Lẩu/Nướng"
+  },
+  {
+    "id": 16,
+    "name": "Lẩu Tokbokki bò hải sản",
+    "price": 119000,
+    "category": "Lẩu/Nướng"
+  },
+  {
+    "id": 17,
+    "name": "Lẩu Tokbokki đặc biệt",
+    "price": 150000,
+    "category": "Lẩu/Nướng"
+  },
+  {
+    "id": 18,
+    "name": "Bò nướng tảng phô mai trứng muối",
+    "price": 129000,
+    "category": "Lẩu/Nướng"
+  },
+  {
+    "id": 60,
+    "name": "Cá chỉ vàng nướng",
+    "price": 35000,
+    "category": "Lẩu/Nướng"
+  },
+  { "id": 61, "name": "Cá bò nướng", "price": 20000, "category": "Lẩu/Nướng" },
+
+  { "id": 19, "name": "Mỳ Ý sốt bò", "price": 40000, "category": "Mỳ" },
+  { "id": 20, "name": "Mỳ Ý bỏ lò phô mai", "price": 45000, "category": "Mỳ" },
+  {
+    "id": 21,
+    "name": "Mỳ trộn Indo thập cẩm",
+    "price": 30000,
+    "category": "Mỳ"
+  },
+  { "id": 22, "name": "Mỳ cay bò thập cẩm", "price": 40000, "category": "Mỳ" },
+  {
+    "id": 23,
+    "name": "Mỳ cay hải sản thập cẩm",
+    "price": 45000,
+    "category": "Mỳ"
+  },
+  { "id": 24, "name": "Mỳ tương đen", "price": 35000, "category": "Mỳ" },
+
+  { "id": 26, "name": "Nem chua", "price": 25000, "category": "Đồ ăn vặt" },
+  { "id": 27, "name": "Phô mai que", "price": 7000, "category": "Đồ ăn vặt" },
+  {
+    "id": 28,
+    "name": "Khoai lang chiên",
+    "price": 10000,
+    "category": "Đồ ăn vặt"
+  },
+  { "id": 29, "name": "Xúc xích", "price": 30000, "category": "Đồ ăn vặt" },
+  {
+    "id": 30,
+    "name": "Khoai tây chiên",
+    "price": 25000,
+    "category": "Đồ ăn vặt"
+  },
+  {
+    "id": 31,
+    "name": "Khoai tây chiên bơ tỏi",
+    "price": 30000,
+    "category": "Đồ ăn vặt"
+  },
+  {
+    "id": 32,
+    "name": "Gà viên lắc phô mai",
+    "price": 40000,
+    "category": "Đồ ăn vặt"
+  },
+
+  { "id": 35, "name": "Chè sầu", "price": 30000, "category": "Chè" },
+  { "id": 36, "name": "Chè thốt nốt", "price": 25000, "category": "Chè" },
+  { "id": 37, "name": "Chè măng cầu", "price": 25000, "category": "Chè" },
+  { "id": 38, "name": "Chè dừa dầm", "price": 20000, "category": "Chè" },
+
+  { "id": 43, "name": "Trà chanh", "price": 15000, "category": "Trà" },
+  { "id": 44, "name": "Trà quất nha đam", "price": 15000, "category": "Trà" },
+  { "id": 45, "name": "Trà dâu", "price": 15000, "category": "Trà" },
+  { "id": 46, "name": "Trà đào", "price": 15000, "category": "Trà" },
+  { "id": 47, "name": "Trà vải trân châu", "price": 20000, "category": "Trà" },
+
+  {
+    "id": 50,
+    "name": "Soda vị đào, dâu",
+    "price": 15000,
+    "category": "Giải khát"
+  },
+  {
+    "id": 51,
+    "name": "Soda việt quất, nho, táo",
+    "price": 15000,
+    "category": "Giải khát"
+  },
+  {
+    "id": 52,
+    "name": "Soda trà xanh, vải, chanh dây",
+    "price": 15000,
+    "category": "Giải khát"
+  },
+  { "id": 53, "name": "Coca", "price": 15000, "category": "Giải khát" },
+
+  { "id": 54, "name": "Sữa chua mít", "price": 20000, "category": "Sữa chua" },
+  {
+    "id": 55,
+    "name": "Sữa chua đậu đỏ",
+    "price": 20000,
+    "category": "Sữa chua"
+  },
+  {
+    "id": 56,
+    "name": "Sữa chua trân châu thạch",
+    "price": 20000,
+    "category": "Sữa chua"
+  },
+
+  { "id": 57, "name": "Milo dầm bánh gấu", "price": 20000, "category": "Milo" },
+  { "id": 58, "name": "Milo dầm caramel", "price": 20000, "category": "Milo" },
+
+  {
+    "id": 62,
+    "name": "Bánh mì mật ong",
+    "price": 10000,
+    "category": "Đồ ăn mới"
+  },
+  {
+    "id": 63,
+    "name": "Xiên que tự chọn",
+    "price": 5000,
+    "category": "Đồ ăn mới"
+  },
+
+  { "id": 67, "name": "Xoài xanh", "price": 20000, "category": "Củ quả" },
+  { "id": 68, "name": "Dưa chuột", "price": 20000, "category": "Củ quả" }
+]
