@@ -8,7 +8,7 @@ const generateMonthsList = () => {
     const monthDate = new Date(currentYear, i);
     const formattedMonth = `${String(i + 1).padStart(2, "0")}/${currentYear}`; // Định dạng MM/yyyy
     months.push({
-      value: monthDate.toISOString().slice(0, 7), // YYYY-MM format for backend
+      value: `${currentYear}-${String(i + 1).padStart(2, "0")}`, // Properly formatted YYYY-MM for backend
       label: formattedMonth, // Display format: MM/yyyy
     });
   }
@@ -98,10 +98,14 @@ const StatisticsPage = () => {
 
     if (newFilterType === "day") {
       const today = new Date();
-      setSelectedDate(formatDate(today)); // Thiết lập ngày hiện tại với định dạng dd/MM/yyyy
+      setSelectedDate(today.toISOString().slice(0, 10)); // Correct format for backend
     } else if (newFilterType === "month") {
       const currentMonth = new Date();
-      setSelectedDate(formatMonth(currentMonth)); // Thiết lập tháng hiện tại với định dạng MM/yyyy
+      setSelectedDate(
+        `${currentMonth.getFullYear()}-${String(
+          currentMonth.getMonth() + 1
+        ).padStart(2, "0")}`
+      ); // Properly formatted YYYY-MM for backend
     }
   };
 
