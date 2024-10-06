@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import OrderPage from "./components/OrderPage";
-import CheckoutPage from "./components/CheckoutPage";
 import OrderHistoryPage from "./components/OrderHistoryPage";
 import StatisticsPage from "./components/StatisticsPage";
 
@@ -14,25 +13,25 @@ function App() {
     setCart(updatedCart);
   };
 
-  const handleCompleteOrder = (newOrder) => {
-    // Gửi đơn hàng mới lên server
-    fetch("http://localhost:5000/api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newOrder),
-    })
-      .then((response) => response.json())
-      .then(() => {
-        alert("Đơn hàng đã được đặt thành công!");
-        setCart([]); // Xóa giỏ hàng sau khi đặt hàng
-        fetchOrders(); // Tải lại lịch sử đơn hàng
-      })
-      .catch((error) => {
-        console.error("Lỗi khi gửi đơn hàng:", error);
-      });
-  };
+  // const handleCompleteOrder = (newOrder) => {
+  //   // Gửi đơn hàng mới lên server
+  //   fetch("http://localhost:5000/api/orders", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(newOrder),
+  //   })
+  //     .then((response) => response.json())
+  //     .then(() => {
+  //       alert("Đơn hàng đã được đặt thành công!");
+  //       setCart([]); // Xóa giỏ hàng sau khi đặt hàng
+  //       fetchOrders(); // Tải lại lịch sử đơn hàng
+  //     })
+  //     .catch((error) => {
+  //       console.error("Lỗi khi gửi đơn hàng:", error);
+  //     });
+  // };
 
   const fetchOrders = () => {
     fetch("http://localhost:5000/api/orders")
