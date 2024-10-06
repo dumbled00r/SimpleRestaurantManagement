@@ -5,7 +5,8 @@ const path = require("path");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 4000;
+
 const DATA_FILE = path.join(__dirname, "orders.json");
 
 app.use(bodyParser.json());
