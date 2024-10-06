@@ -1,22 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const OrderHistoryPage = ({ orders }) => {
+const OrderHistoryPage = () => {
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/orders")
+      .then((response) => response.json())
+      .then((data) => {
+        setOrders(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching order history:", error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Loading order history...</div>;
+  }
+
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Lịch sử đặt hàng</h1>
+      <h1 className="text-2xl font-bold mb-4">Order History</h1>
       {orders.length === 0 ? (
-        <p>Chưa có đơn hàng nào.</p>
+        <p>No orders found.</p>
       ) : (
         <ul>
           {orders.map((order, index) => (
             <li key={index} className="mb-4 p-4 border rounded">
-              <h2 className="text-xl">Đơn hàng {index + 1}</h2>
-              <p>Thời gian: {new Date(order.date).toLocaleString()}</p>
+              <h2 className="text-xl">Order {index + 1}</h2>
+              <p>Date: {new Date(order.date).toLocaleString()}</p>
               <p>
-                Phương thức thanh toán:{" "}
-                {order.paymentMethod === "cash" ? "Tiền mặt" : "Chuyển khoản"}
+                Payment Method:{" "}
+                {order.paymentMethod === "cash" ? "Cash" : "Bank Transfer"}
               </p>
-              <p>Tổng tiền: {order.total.toLocaleString()} đ</p>
+              <p>Total: {order.total.toLocaleString()} đ</p>
               <ul>
                 {order.items.map((item, idx) => (
                   <li key={idx}>

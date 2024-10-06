@@ -34,7 +34,7 @@ function App() {
   // };
 
   const fetchOrders = () => {
-    fetch("https://simplerestaurantmanagement.onrender.com/api/orders")
+    fetch("http://localhost:5000/api/orders")
       .then((response) => response.json())
       .then((data) => {
         setOrders(data);
@@ -42,7 +42,7 @@ function App() {
   };
 
   const fetchStatistics = () => {
-    fetch("https://simplerestaurantmanagement.onrender.com/api/statistics")
+    fetch("http://localhost:5000/api/statistics")
       .then((response) => response.json())
       .then((data) => {
         setStatistics(data);

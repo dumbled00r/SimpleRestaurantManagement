@@ -1,138 +1,100 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const fs = require("fs");
-const path = require("path");
+const mongoose = require("mongoose");
 const cors = require("cors");
+// dot env
+require("dotenv").config();
 
+// Initialize Express app
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = 5000;
 
-const DATA_FILE = path.join(__dirname, "orders.json");
-
+// Middleware
 app.use(bodyParser.json());
 app.use(cors());
 
-// Kiểm tra nếu file orders.json không tồn tại thì tạo mới
-if (!fs.existsSync(DATA_FILE)) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify({ orders: [], statistics: {} }));
-}
+// Connect to MongoDB
+const mongoUri = process.env.MONGO_URL; // Update this to your MongoDB URI\
+mongoose
+  .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
 
-// Đọc dữ liệu từ file JSON
-const readDataFromFile = () => {
-  const rawData = fs.readFileSync(DATA_FILE);
-  return JSON.parse(rawData);
-};
-
-// Ghi dữ liệu vào file JSON
-const writeDataToFile = (data) => {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
-};
-
-// API để lấy lịch sử đặt hàng
-app.get("/api/orders", (req, res) => {
-  const data = readDataFromFile();
-  res.json(data.orders);
+// Mongoose schema and model for Orders
+const orderSchema = new mongoose.Schema({
+  items: [
+    {
+      name: String,
+      price: Number,
+      quantity: Number,
+    },
+  ],
+  total: Number,
+  paymentMethod: String,
+  date: { type: Date, default: Date.now },
 });
 
-// API để tạo đơn hàng mới
-app.post("/api/orders", (req, res) => {
-  const newOrder = req.body;
-  const data = readDataFromFile();
+const Order = mongoose.model("Order", orderSchema);
 
-  // Thêm đơn hàng vào danh sách
-  data.orders.push(newOrder);
-
-  // Cập nhật thống kê
-  newOrder.items.forEach((item) => {
-    if (!data.statistics[item.name]) {
-      data.statistics[item.name] = { sold: 0 };
-    }
-    data.statistics[item.name].sold += 1;
-  });
-
-  // Ghi dữ liệu mới vào file
-  writeDataToFile(data);
-
-  res.status(201).json({ message: "Đơn hàng đã được lưu thành công!" });
+// API: Get order history from MongoDB
+app.get("/api/orders", async (req, res) => {
+  try {
+    const orders = await Order.find().sort({ date: -1 }); // Fetch orders in descending order of date
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch orders" });
+  }
 });
 
-// API để lấy thống kê doanh thu và số lượng món ăn
-app.get("/api/statistics", (req, res) => {
-  const data = readDataFromFile();
-  const orders = data.orders;
+// API: Create a new order
+app.post("/api/orders", async (req, res) => {
+  const newOrder = new Order(req.body); // Create new order document based on the request body
 
-  const day = req.query.day ? new Date(req.query.day) : null;
-  const month = req.query.month ? new Date(req.query.month) : null;
+  try {
+    await newOrder.save(); // Save the order in MongoDB
+    res.status(201).json({ message: "Order successfully placed!" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to place order" });
+  }
+});
 
-  //   console.log("Day:", day); // Kiểm tra tham số ngày
-  //   console.log("Month:", month); // Kiểm tra tham số tháng
+// API: Get statistics (Revenue & Food Sales)
+app.get("/api/statistics", async (req, res) => {
+  try {
+    const orders = await Order.find();
+    const now = new Date();
+    const foodSales = {};
+    let cashRevenue = 0;
+    let bankTransferRevenue = 0;
 
-  const filteredOrders = orders.filter((order) => {
-    const orderDate = new Date(order.date);
+    orders.forEach((order) => {
+      order.items.forEach((item) => {
+        if (!foodSales[item.name]) {
+          foodSales[item.name] = { sold: 0, revenue: 0 };
+        }
+        foodSales[item.name].sold += item.quantity;
+        foodSales[item.name].revenue += item.price * item.quantity;
+      });
 
-    if (day) {
-      return orderDate.toDateString() === day.toDateString();
-    }
-
-    if (month) {
-      return (
-        orderDate.getFullYear() === month.getFullYear() &&
-        orderDate.getMonth() === month.getMonth()
-      );
-    }
-
-    return true; // Trả về tất cả nếu không có tham số lọc
-  });
-
-  //   console.log("Filtered Orders:", filteredOrders); // Kiểm tra đơn hàng sau khi lọc
-
-  const foodSales = {};
-  let cashRevenue = 0;
-  let bankTransferRevenue = 0;
-
-  filteredOrders.forEach((order) => {
-    order.items.forEach((item) => {
-      if (!foodSales[item.name]) {
-        foodSales[item.name] = { sold: 0, revenue: 0 };
+      // Calculate revenue based on payment method
+      if (order.paymentMethod === "cash") {
+        cashRevenue += order.total;
+      } else if (order.paymentMethod === "bank") {
+        bankTransferRevenue += order.total;
       }
-      foodSales[item.name].sold += 1;
-      foodSales[item.name].revenue += item.price;
     });
 
-    if (order.paymentMethod === "cash") {
-      cashRevenue += order.total;
-    } else if (order.paymentMethod === "bank") {
-      bankTransferRevenue += order.total;
-    }
-  });
-
-  //   console.log("Cash Revenue:", cashRevenue); // Kiểm tra doanh thu tiền mặt
-  //   console.log("Bank Transfer Revenue:", bankTransferRevenue); // Kiểm tra doanh thu chuyển khoản
-
-  res.json({
-    foodSales,
-    cashRevenue,
-    bankTransferRevenue,
-    from: day
-      ? day.toISOString().slice(0, 10)
-      : month
-      ? `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(
-          2,
-          "0"
-        )}`
-      : "N/A",
-    to: day
-      ? day.toISOString().slice(0, 10)
-      : month
-      ? `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(
-          2,
-          "0"
-        )}`
-      : "N/A",
-  });
+    res.json({
+      foodSales,
+      cashRevenue,
+      bankTransferRevenue,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch statistics" });
+  }
 });
 
-// Khởi chạy server
+// Start the server
 app.listen(PORT, () => {
-  console.log(`Server đang chạy tại http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
