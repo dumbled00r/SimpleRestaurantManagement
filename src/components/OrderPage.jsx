@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import foods from "../data/menu.json"; // Thực đơn từ file JSON
+import LoginPage from "./LoginPage"; // Import the login page
 
 const OrderPage = () => {
   const [cart, setCart] = useState([]); // Giỏ hàng
@@ -8,7 +9,19 @@ const OrderPage = () => {
   const [newFoodName, setNewFoodName] = useState(""); // Tên món ăn ngoài menu
   const [newFoodPrice, setNewFoodPrice] = useState(""); // Giá món ăn ngoài menu
   const [showScrollButton, setShowScrollButton] = useState(false); // Hiển thị nút cuộn lên đầu
+  const [loggedIn, setLoggedIn] = useState(false); // Track login status
   const cartRef = React.createRef(); // Reference to the cart section
+
+  // Check if user is logged in (read from localStorage)
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    setLoggedIn(isLoggedIn);
+  }, []);
+
+  // Hàm xử lý đăng nhập thành công
+  const handleLogin = () => {
+    setLoggedIn(true);
+  };
 
   // Nhóm món ăn theo category
   const groupedFoods = foods.reduce((acc, food) => {
@@ -75,30 +88,6 @@ const OrderPage = () => {
     setNewFoodPrice("");
   };
 
-  // Hàm tăng số lượng món ăn
-  const increaseQuantity = (id) => {
-    const updatedCart = cart.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-    );
-    setCart(updatedCart);
-  };
-
-  // Hàm giảm số lượng món ăn
-  const decreaseQuantity = (id) => {
-    const updatedCart = cart.map((item) =>
-      item.id === id && item.quantity > 1
-        ? { ...item, quantity: item.quantity - 1 }
-        : item
-    );
-    setCart(updatedCart);
-  };
-
-  // Hàm xóa món ăn khỏi giỏ hàng
-  const removeItemFromCart = (id) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
-    setCart(updatedCart);
-  };
-
   // Hàm xử lý thanh toán
   const handleCheckout = () => {
     if (cart.length === 0) {
@@ -136,15 +125,10 @@ const OrderPage = () => {
       });
   };
 
-  // Hàm cuộn lên đầu trang
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // Hàm cuộn xuống giỏ hàng
-  const scrollToCart = () => {
-    cartRef.current.scrollIntoView({ behavior: "smooth" });
-  };
+  // Nếu người dùng chưa đăng nhập, hiển thị trang đăng nhập
+  if (!loggedIn) {
+    return <LoginPage onLogin={handleLogin} />;
+  }
 
   return (
     <div className="p-4">
@@ -269,33 +253,6 @@ const OrderPage = () => {
         >
           Xác nhận thanh toán
         </button>
-      </div>
-
-      {/* Nút cuộn lên đầu và giỏ hàng */}
-      <div className="fixed bottom-4 right-4 flex flex-col space-y-4">
-        {showScrollButton && (
-          <button
-            onClick={scrollToTop}
-            className="bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg"
-          >
-            🡅
-          </button>
-        )}
-
-        {/* Nút giỏ hàng */}
-        {cart.length > 0 && (
-          <div className="relative">
-            <button
-              onClick={scrollToCart}
-              className="bg-white text-white px-4 py-2 rounded-full shadow-lg"
-            >
-              🛒
-            </button>
-            <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-              {totalItemsInCart}
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );
