@@ -88,7 +88,7 @@ const OrderPage = () => {
     };
 
     // Gửi yêu cầu thanh toán (POST) đến server
-    fetch("http://localhost:5000/api/orders", {
+    fetch("https://simplerestaurantmanagement.onrender.com/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

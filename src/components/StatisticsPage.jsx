@@ -45,7 +45,7 @@ const StatisticsPage = () => {
       return;
     }
 
-    let url = `http://localhost:5000/api/statistics?${filterType}=${selectedDate}`;
+    let url = `https://simplerestaurantmanagement.onrender.com/api/statistics?${filterType}=${selectedDate}`;
     console.log("Fetching from URL:", url); // Log URL để kiểm tra
 
     setLoading(true);
