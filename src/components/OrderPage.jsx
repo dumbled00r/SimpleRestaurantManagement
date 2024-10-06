@@ -88,6 +88,30 @@ const OrderPage = () => {
     setNewFoodPrice("");
   };
 
+  // Hàm tăng số lượng món ăn
+  const increaseQuantity = (id) => {
+    const updatedCart = cart.map((item) =>
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+    );
+    setCart(updatedCart);
+  };
+
+  // Hàm giảm số lượng món ăn
+  const decreaseQuantity = (id) => {
+    const updatedCart = cart.map((item) =>
+      item.id === id && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+    setCart(updatedCart);
+  };
+
+  // Hàm xóa món ăn khỏi giỏ hàng
+  const removeItemFromCart = (id) => {
+    const updatedCart = cart.filter((item) => item.id !== id);
+    setCart(updatedCart);
+  };
+
   // Hàm xử lý thanh toán
   const handleCheckout = () => {
     if (cart.length === 0) {
@@ -123,6 +147,16 @@ const OrderPage = () => {
       .catch((error) => {
         console.error("Lỗi khi thanh toán:", error);
       });
+  };
+
+  // Hàm cuộn lên đầu trang
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Hàm cuộn xuống giỏ hàng
+  const scrollToCart = () => {
+    cartRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   // Nếu người dùng chưa đăng nhập, hiển thị trang đăng nhập
@@ -253,6 +287,33 @@ const OrderPage = () => {
         >
           Xác nhận thanh toán
         </button>
+      </div>
+
+      {/* Nút cuộn lên đầu và giỏ hàng */}
+      <div className="fixed bottom-4 right-4 flex flex-col space-y-4">
+        {showScrollButton && (
+          <button
+            onClick={scrollToTop}
+            className="bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg"
+          >
+            🡅
+          </button>
+        )}
+
+        {/* Nút giỏ hàng */}
+        {cart.length > 0 && (
+          <div className="relative">
+            <button
+              onClick={scrollToCart}
+              className="bg-white text-white px-4 py-2 rounded-full shadow-lg"
+            >
+              🛒
+            </button>
+            <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+              {totalItemsInCart}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
