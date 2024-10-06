@@ -31,17 +31,17 @@ const LoginPage = ({ onLogin }) => {
       }
     } catch (error) {
       console.log(error);
-      setError("An error occurred during login");
+      setError("Gặp lỗi khi đăng nhập");
     }
   };
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
+      <h1 className="text-2xl font-bold mb-4">Đăng nhập</h1>
       {error && <p className="text-red-500">{error}</p>}
       <form onSubmit={handleLogin}>
         <div className="mb-4">
-          <label>Username:</label>
+          <label>Tên tài khoản:</label>
           <input
             type="text"
             value={username}
@@ -50,7 +50,7 @@ const LoginPage = ({ onLogin }) => {
           />
         </div>
         <div className="mb-4">
-          <label>Password:</label>
+          <label>Mật khẩu:</label>
           <input
             type="password"
             value={password}
@@ -62,7 +62,7 @@ const LoginPage = ({ onLogin }) => {
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded"
         >
-          Login
+          Đăng nhập
         </button>
       </form>
     </div>

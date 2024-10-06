@@ -5,7 +5,7 @@ const cors = require("cors");
 const bcrypt = require("bcryptjs"); // For password hashing
 require("dotenv").config();
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(bodyParser.json());
@@ -15,8 +15,8 @@ app.use(cors());
 const mongoUri = process.env.MONGO_URL;
 mongoose
   .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .then(() => console.log("Đã kết nối cơ sở dữ liệu"))
+  .catch((err) => console.error("Lỗi kết nối cơ sở dữ liệu:", err));
 
 // Mongoose schema for Orders
 const orderSchema = new mongoose.Schema({
@@ -120,7 +120,7 @@ app.get("/api/statistics", async (req, res) => {
       endDate,
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch statistics" });
+    res.status(500).json({ error: "Gặp lỗi khi tải thống kê" });
   }
 });
 
@@ -129,7 +129,7 @@ app.get("/api/orders", async (req, res) => {
     const orders = await Order.find().sort({ date: -1 });
     res.json(orders);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch orders" });
+    res.status(500).json({ error: "Gặp lỗi khi tải order" });
   }
 });
 
@@ -146,11 +146,9 @@ app.post("/api/orders", async (req, res) => {
     });
 
     await newOrder.save();
-    res
-      .status(201)
-      .json({ message: "Order created successfully", order: newOrder });
+    res.status(201).json({ message: "Order thành công", order: newOrder });
   } catch (error) {
-    res.status(500).json({ error: "Failed to create order" });
+    res.status(500).json({ error: "Order thất bại" });
   }
 });
 
@@ -161,17 +159,21 @@ app.post("/api/login", async (req, res) => {
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).json({ message: "Invalid username or password" });
+      return res
+        .status(400)
+        .json({ message: "Tài khoản hoặc mật khẩu không chính xác" });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(400).json({ message: "Invalid username or password" });
+      return res
+        .status(400)
+        .json({ message: "Tài khoản hoặc mật khẩu không chính xác" });
     }
 
-    res.status(200).json({ message: "Login successful", role: user.role });
+    res.status(200).json({ message: "Đăng nhập thành công", role: user.role });
   } catch (error) {
-    res.status(500).json({ error: "Failed to login" });
+    res.status(500).json({ error: "Đăng nhập thất bại" });
   }
 });
 
@@ -188,9 +190,9 @@ app.post("/api/register", async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({ message: "Tạo người dùng thành công" });
   } catch (error) {
-    res.status(500).json({ error: "Failed to register user" });
+    res.status(500).json({ error: "Tạo người dùng thất bại" });
   }
 });
 
