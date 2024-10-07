@@ -124,9 +124,21 @@ app.get("/api/statistics", async (req, res) => {
   }
 });
 
+// API to get orders with optional date filter
 app.get("/api/orders", async (req, res) => {
+  const { day } = req.query;
+
   try {
-    const orders = await Order.find().sort({ date: -1 });
+    let orders;
+    if (day) {
+      const { startDate, endDate } = getStartEndDate("day", day);
+      orders = await Order.find({
+        date: { $gte: startDate, $lte: endDate },
+      }).sort({ date: -1 });
+    } else {
+      orders = await Order.find().sort({ date: -1 });
+    }
+
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: "Gặp lỗi khi tải order" });
@@ -149,6 +161,21 @@ app.post("/api/orders", async (req, res) => {
     res.status(201).json({ message: "Order thành công", order: newOrder });
   } catch (error) {
     res.status(500).json({ error: "Order thất bại" });
+  }
+});
+
+// API to delete an order by ID
+app.delete("/api/orders/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedOrder = await Order.findByIdAndDelete(id);
+    if (!deletedOrder) {
+      return res.status(404).json({ message: "Order không tìm thấy" });
+    }
+    res.status(200).json({ message: "Order đã bị xóa", order: deletedOrder });
+  } catch (error) {
+    res.status(500).json({ error: "Xóa order thất bại" });
   }
 });
 
