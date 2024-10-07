@@ -12,7 +12,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [role, setRole] = useState(""); // Store the user's role
 
-  const baseURL = "https://simplerestaurantmanagement.onrender.com";
+  const baseURL = "https://coutnhatrang-api.vercel.app";
 
   useEffect(() => {
     // Check if the user is already logged in

@@ -127,7 +127,7 @@ const OrderPage = () => {
     };
 
     // Gửi yêu cầu thanh toán (POST) đến server
-    fetch(`https://simplerestaurantmanagement.onrender.com/api/orders`, {
+    fetch(`https://coutnhatrang-api.vercel.app/api/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

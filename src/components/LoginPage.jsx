@@ -10,7 +10,7 @@ const LoginPage = ({ onLogin }) => {
 
     try {
       const response = await fetch(
-        "https://simplerestaurantmanagement.onrender.com/api/login",
+        "https://coutnhatrang-api.vercel.app/api/login",
         {
           method: "POST",
           headers: {

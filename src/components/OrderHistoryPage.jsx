@@ -26,7 +26,7 @@ const OrderHistoryPage = () => {
   );
   const [showScrollButton, setShowScrollButton] = useState(false);
 
-  const baseUrl = "https://simplerestaurantmanagement.onrender.com";
+  const baseUrl = "https://coutnhatrang-api.vercel.app";
 
   useEffect(() => {
     fetchOrders(selectedDate);

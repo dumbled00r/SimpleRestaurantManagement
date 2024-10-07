@@ -46,7 +46,7 @@ const StatisticsPage = () => {
       return;
     }
 
-    const baseUrl = "https://simplerestaurantmanagement.onrender.com";
+    const baseUrl = "https://coutnhatrang-api.vercel.app";
     let url = `${baseUrl}/api/statistics?${filterType}=${selectedDate}`;
     console.log("Fetching from URL:", url); // Log URL để kiểm tra
 
